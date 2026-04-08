@@ -62,6 +62,7 @@ const Home = () => {
           {},
           {
             headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
           }
         );
         toast.info(logout.data?.message);

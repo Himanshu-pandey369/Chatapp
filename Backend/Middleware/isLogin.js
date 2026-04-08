@@ -3,7 +3,13 @@ const User = require("../Models/user");
 
 const isLogin = async(req, res, next) => {
   try {
-    const token = req.cookies.jwt;
+    let token = req.cookies.jwt;
+    if (!token) {
+      const authHeader = req.headers.authorization;
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.substring(7);
+      }
+    }
     if (!token)
       return res.status(401).json({
         success: false,

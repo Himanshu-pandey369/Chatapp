@@ -119,7 +119,11 @@ const Message = () => {
     const getMessages = async () => {
       setLoading(true);
       try {
-        const get = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/message/${selectedConversation.conversationId}`);
+        const token = localStorage.getItem("token");
+        const get = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/message/${selectedConversation.conversationId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        });
         const data = await get.data;
         if (data.success === false) {
           setLoading(false);
@@ -162,9 +166,13 @@ const Message = () => {
     setSending(true);
 
     try {
+      const token = localStorage.getItem("token");
       // Send via HTTP to save to database
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/message/send/${selectedConversation._id}`, {
         message: sendData,
+      }, {
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       });
       const data = await res.data;
 
