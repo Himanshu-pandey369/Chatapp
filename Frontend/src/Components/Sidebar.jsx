@@ -112,7 +112,13 @@ const Sidebar = ({ SelectedUserId, setSelectedUserId }) => {
               >
                 <div className="w-12 h-12 bg-linear-to-r from-indigo-400 to-purple-500 rounded-2xl flex items-center justify-center shrink-0 shadow-lg">
                   <span className="text-white font-semibold text-lg">
-                    {user.username[0].toUpperCase()}
+                    <div className="relative w-12 h-12">
+                      <img
+                        src={user.profilepic}
+                        alt="profile"
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                    </div>
                   </span>
                 </div>
                 <div className="min-w-0 flex-1">
@@ -147,7 +153,19 @@ const Sidebar = ({ SelectedUserId, setSelectedUserId }) => {
               >
                 <div className="flex">
                   <div className="w-12 h-12 bg-linear-to-r from-purple-400 to-pink-400 rounded-xl flex items-center justify-center text-white font-bold text-lg shrink-0 shadow-lg group-hover:scale-110 transition-transform">
-                    {user.username[0].toUpperCase()}
+                    <div className="relative w-12 h-12">
+                      {/* Profile Image */}
+                      <img
+                        src={user.profilepic}
+                        alt="User"
+                        className="w-full h-full rounded-full object-cover"
+                      />
+
+                      {/* Online Indicator */}
+                      {user.isOnline && (
+                        <span className="absolute top-0 right-0 block w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                      )}
+                    </div>
                   </div>
                   <div className="min-w-0 flex-1 pl-4">
                     <p className="font-bold text-gray-900 text-lg truncate group-hover:text-indigo-700 transition-colors">

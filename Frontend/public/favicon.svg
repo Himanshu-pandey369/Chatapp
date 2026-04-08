@@ -1,0 +1,40 @@
+<svg width="512" height="512" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Main gradient -->
+    <linearGradient id="bubbleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3cc3ff"/>
+      <stop offset="100%" stop-color="#7b3cff"/>
+    </linearGradient>
+
+    <!-- Wave gradient -->
+    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5ef0d6"/>
+      <stop offset="100%" stop-color="#2aa7ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Chat bubble -->
+  <path d="M128 20
+           C70 20, 30 60, 30 110
+           C30 160, 70 200, 128 200
+           C145 200, 165 195, 180 185
+           L210 200
+           L200 170
+           C215 155, 225 135, 225 110
+           C225 60, 185 20, 128 20 Z"
+        fill="url(#bubbleGradient)"/>
+
+  <!-- Wave inside -->
+  <path d="M50 120
+           C90 100, 130 140, 170 120
+           C190 110, 210 130, 210 130
+           L210 160
+           C170 180, 130 150, 90 170
+           C70 180, 50 160, 50 160 Z"
+        fill="url(#waveGradient)"/>
+
+  <!-- Dots -->
+  <circle cx="90" cy="95" r="8" fill="white"/>
+  <circle cx="128" cy="95" r="8" fill="white"/>
+  <circle cx="166" cy="95" r="8" fill="white"/>
+</svg>

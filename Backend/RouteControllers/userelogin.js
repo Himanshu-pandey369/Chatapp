@@ -21,6 +21,13 @@ const userlogin = async (req, res) => {
         message: "Invalid password",
       });
     }
+
+    // Set default profile pic if not set
+    if (!user.profilepic) {
+      user.profilepic = `https://api.dicebear.com/9.x/lorelei/svg?seed=${encodeURIComponent(user.username)}`;
+      await user.save();
+    }
+
     jwtToken(user._id, res);
     return res.status(200).json({
       success: true,

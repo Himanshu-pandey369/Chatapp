@@ -8,6 +8,8 @@ import {
   onReceiveMessage,
   onMessageSent,
   emitUserTyping,
+  onUsersOnline,
+  onUserTyping,
 } from "../services/socketService";
 
 const Message = () => {
@@ -26,6 +28,8 @@ const Message = () => {
     setIsUserTyping,
     clearUnread,
     incrementUnread,
+    onlineUsers,
+    setOnlineUsers,
   } = userConversation();
 
   const scrollToBottom = () => {
@@ -84,6 +88,32 @@ const Message = () => {
       // Cleanup listener
     };
   }, [selectedConversation]);
+
+  // Listen for online users updates
+  useEffect(() => {
+    const handleUsersOnline = (data) => {
+      setOnlineUsers(data);
+    };
+
+    onUsersOnline(handleUsersOnline);
+
+    return () => {
+      // Cleanup listener
+    };
+  }, [setOnlineUsers]);
+
+  // Listen for typing notifications
+  useEffect(() => {
+    const handleUserTyping = (data) => {
+      if (data.senderId === selectedConversation?._id) {
+        setIsUserTyping(true);
+        setTimeout(() => {
+          setIsUserTyping(false);
+        }, 2000);
+      }
+    };
+    onUserTyping(handleUserTyping);
+  }, [selectedConversation?._id, setIsUserTyping]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -163,12 +193,23 @@ const Message = () => {
 
   return (
     <div className="h-full flex flex-col border-l border-gray-200">
-      {/* Clean Header matching Sidebar style */}
       {selectedConversation !== null && (
         <div className="p-4 border-b border-gray-200 bg-gray-50">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-linear-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold shrink-0">
-              {selectedConversation?.username?.[0]?.toUpperCase()}
+              <div className="flex items-center gap-3">
+                <div className="relative w-12 h-12">
+                  <img
+                    src={user.profilepic}
+                    alt="profile"
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  {onlineUsers.includes(selectedConversation._id) && (
+                    <span className="absolute top-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                  )}
+                </div>
+
+              </div>
             </div>
             <div className="min-w-0 flex-1">
               <p className="font-semibold text-gray-900 truncate">
@@ -177,8 +218,10 @@ const Message = () => {
               <p className="text-sm text-gray-500">
                 {isUserTyping ? (
                   <span className="text-indigo-600 font-medium">typing...</span>
-                ) : (
+                ) : onlineUsers.includes(selectedConversation._id) ? (
                   "Active now"
+                ) : (
+                  "Active recently"
                 )}
               </p>
             </div>
@@ -217,31 +260,27 @@ const Message = () => {
             {messages.map((message) => (
               <div
                 key={message?._id}
-                className={`flex ${
-                  message.senderId === user._id ? "justify-end" : "justify-start"
-                }`}
+                className={`flex ${message.senderId === user._id ? "justify-end" : "justify-start"
+                  }`}
               >
                 <div
-                  className={`max-w-md p-3 rounded-lg shadow-sm ${
-                    message.senderId === user._id
-                      ? "bg-linear-to-r from-indigo-500 to-purple-600 text-white rounded-br-none"
-                      : "bg-gray-100 rounded-bl-none"
-                  }`}
+                  className={`max-w-md p-3 rounded-lg shadow-sm ${message.senderId === user._id
+                    ? "bg-linear-to-r from-indigo-500 to-purple-600 text-white rounded-br-none"
+                    : "bg-gray-100 rounded-bl-none"
+                    }`}
                 >
                   <p
-                    className={`text-sm ${
-                      message.senderId === user._id ? "font-medium" : ""
-                    }`}
+                    className={`text-sm ${message.senderId === user._id ? "font-medium" : ""
+                      }`}
                   >
                     {message?.message}
                   </p>
                   <div className="flex items-center justify-end mt-1 gap-1">
                     <span
-                      className={`text-xs ${
-                        message.senderId === user._id
-                          ? "text-blue-200"
-                          : "text-gray-500"
-                      }`}
+                      className={`text-xs ${message.senderId === user._id
+                        ? "text-blue-200"
+                        : "text-gray-500"
+                        }`}
                     >
                       {new Date(message?.createdAt).toLocaleTimeString(
                         "en-IN",
