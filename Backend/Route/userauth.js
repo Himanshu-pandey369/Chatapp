@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const userRegister = require("../RouteControllers/userroutecontroller")
+const userRegister = require("../RouteControllers/userRoutecontroller")
 const userlogin = require("../RouteControllers/userelogin")
 const userlogout = require("../RouteControllers/userlogout")
 const isLogin = require("../Middleware/isLogin")
