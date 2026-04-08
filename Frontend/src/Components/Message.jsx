@@ -119,7 +119,7 @@ const Message = () => {
     const getMessages = async () => {
       setLoading(true);
       try {
-        const get = await axios.get(`/api/message/${selectedConversation.conversationId}`);
+        const get = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/message/${selectedConversation.conversationId}`);
         const data = await get.data;
         if (data.success === false) {
           setLoading(false);
@@ -163,7 +163,7 @@ const Message = () => {
 
     try {
       // Send via HTTP to save to database
-      const res = await axios.post(`/api/message/send/${selectedConversation._id}`, {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/message/send/${selectedConversation._id}`, {
         message: sendData,
       });
       const data = await res.data;

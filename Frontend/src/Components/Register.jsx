@@ -28,7 +28,7 @@ const Register = () => {
     setloading(true);
     console.log(formData);
     try {
-      const register = await axios.post(`/api/auth/register`, formData);
+      const register = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, formData);
       const data = register.data;
       if (data.success === false) {
         setloading(false);

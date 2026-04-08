@@ -34,7 +34,7 @@ const Sidebar = ({ SelectedUserId, setSelectedUserId }) => {
   const loadChatUsers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("/api/user/currentchatters", {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/currentchatters`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setChatUser(Array.isArray(res.data) ? res.data : []);
@@ -58,7 +58,7 @@ const Sidebar = ({ SelectedUserId, setSelectedUserId }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const search = await axios.get(`/api/user/search?search=${searchInput}`, {
+      const search = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/search?search=${searchInput}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = search.data;

@@ -58,7 +58,7 @@ const Home = () => {
       try {
         const token = localStorage.getItem("token");
         const logout = await axios.post(
-          "/api/auth/logout",
+          `${import.meta.env.VITE_BACKEND_URL}/api/auth/logout`,
           {},
           {
             headers: { Authorization: `Bearer ${token}` },

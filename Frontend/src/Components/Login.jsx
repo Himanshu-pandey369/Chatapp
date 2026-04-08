@@ -26,7 +26,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post("/api/auth/login", formData);
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, formData);
       const data = res.data;
       if (data.success === false) {
         toast.error(data.message);
