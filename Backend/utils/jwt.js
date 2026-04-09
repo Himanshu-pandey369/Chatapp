@@ -1,11 +1,11 @@
-import { sign } from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
 const jwtToken = (userID, res) => {
   if (!process.env.JWT_SECRET) {
     throw new Error("JWT_SECRET is not defined");
   }
 
-  const token = sign({ userID }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ userID }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
 
@@ -21,4 +21,4 @@ const jwtToken = (userID, res) => {
   return token;
 };
 
-export default jwtToken;
+module.exports = jwtToken;
