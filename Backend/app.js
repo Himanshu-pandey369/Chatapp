@@ -17,17 +17,15 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://chatapp-one-indol.vercel.app"],
     credentials: true,
   },
 });
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  }),
-);
+app.use(cors({
+  origin: ["http://localhost:5173", "https://chatapp-one-indol.vercel.app"],
+  credentials: true,
+}));
 
 app.use(cookieParser());
 app.use(express.json());
@@ -101,7 +99,7 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-const PORT = process.env.PORT ;
+const PORT = process.env.PORT || 5000;
 
 connectDB()
   .then(() => {
@@ -113,3 +111,4 @@ connectDB()
     console.log("Failed to connect to database:", error);
     process.exit(1);
   });
+
