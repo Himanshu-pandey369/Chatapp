@@ -1,15 +1,24 @@
-const jwt = require("jsonwebtoken");
+import { sign } from "jsonwebtoken";
 
 const jwtToken = (userID, res) => {
-  const token = jwt.sign({ userID }, process.env.JWT_SECRET, {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not defined");
+  }
+
+  const token = sign({ userID }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
+
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie("jwt", token, {
     maxAge: 30 * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "strict",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: isProduction ? "strict" : "lax",
+    secure: isProduction,
   });
+
+  return token;
 };
 
-module.exports = jwtToken;
+export default jwtToken;
