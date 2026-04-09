@@ -28,11 +28,12 @@ const userlogin = async (req, res) => {
       await user.save();
     }
 
-    jwtToken(user._id, res);
+    const token = jwtToken(user._id, res);
     return res.status(200).json({
       success: true,
       message: "Login successful",
-      user
+      user,
+      token,
     });
   } catch (error) {
     res.status(500).json({
