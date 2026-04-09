@@ -92,11 +92,10 @@ const Home = () => {
         <div className="flex-1 min-h-0 flex flex-col">
           <Message />
         </div>
-        {/* Classy Logout Button */}
         <button
           onClick={handleLogOut}
           disabled={logoutLoading}
-          className="absolute bottom-4 right-4 p-3 bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="hidden md:block absolute bottom-4 right-4 p-3 bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           title="Logout"
         >
           <BiLogOut className="w-5 h-5" />
