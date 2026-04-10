@@ -18,7 +18,7 @@ const userSearch = async (req, res) => {
       ],
     })
       .select("-password")
-      .select("email");
+      .select("email username");
     res.status(200).send(user);
   } catch (error) {
     res.status(500).send({
