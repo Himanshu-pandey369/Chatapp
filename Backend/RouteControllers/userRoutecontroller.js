@@ -46,6 +46,7 @@ const userRegister = async (req, res) => {
         username: newUser.username,
         profilepic: newUser.profilepic,
       },
+      token,
     });
   } catch (error) {
     res.status(500).send({
