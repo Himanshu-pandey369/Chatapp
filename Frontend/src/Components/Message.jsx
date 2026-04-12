@@ -12,7 +12,7 @@ import {
   onUserTyping,
 } from "../services/socketService";
 
-const Message = () => {
+const Message = ({ onBackUser }) => {
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [sendData, setSendData] = useState("");
@@ -200,23 +200,31 @@ const Message = () => {
   };
 
   return (
-    <div className="h-full flex flex-col border-l border-gray-200">
+    <div className="h-full flex flex-col ">
       {selectedConversation !== null && (
         <div className="p-4 border-b border-gray-200 bg-gray-50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-linear-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="relative w-12 h-12">
-                  <img
-                    src={user.profilepic}
-                    alt="profile"
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  {onlineUsers.includes(selectedConversation._id) && (
-                    <span className="absolute top-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
-                  )}
-                </div>
-
+            {onBackUser && (
+              <button 
+                onClick={onBackUser}
+                className="p-2 -ml-1 text-gray-500 hover:text-gray-900 hover:bg-gray-200 rounded-lg transition-all sm:hidden"
+                aria-label="Back to users"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+              </button>
+            )}
+            <div className="w-12 h-12 shrink-0">
+              <div className="relative w-12 h-12">
+                <img
+                  src={selectedConversation?.profilepic || '/default-avatar.png'}
+                  alt="profile"
+                  className="w-12 h-12 rounded-full object-cover border-4 border-white shadow-md"
+                />
+                {onlineUsers?.includes(selectedConversation?._id) && (
+                  <span className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full shadow-lg ring-2 ring-gray-50"></span>
+                )}
               </div>
             </div>
             <div className="min-w-0 flex-1">
@@ -318,8 +326,8 @@ const Message = () => {
         )}
       </div>
 
-      {selectedConversation !== null && (
-        <div className="p-4 border-t border-gray-200 bg-gray-50">
+{selectedConversation !== null && (
+        <div className="sticky bottom-0 z-20 md:static p-4 border-t border-gray-200 bg-gray-50">
           <form onSubmit={handleSubmit} className="flex items-center gap-3">
             <div className="flex-1 flex items-center gap-2 p-3 border border-gray-200 rounded-xl hover:border-gray-300 focus-within:border-indigo-500 transition-colors">
               <input
@@ -343,6 +351,7 @@ const Message = () => {
           </form>
         </div>
       )}
+
     </div>
   );
 };

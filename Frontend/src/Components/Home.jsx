@@ -15,7 +15,16 @@ import {
 import userConversation from "../Zustans/userConversation";
 
 const Home = () => {
-  const [selectedUserId, setSelectedUserId] = useState(null);
+const [selectedUserId, setSelectedUserId] = useState(null);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+
+const handleShowSidebar = () => {
+    setIsSidebarVisible(true);
+    // On mobile back button, completely hide messages (clear selection)
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setSelectedUserId(null);
+    }
+  };
   const navigate = useNavigate();
   const [logoutLoading, setLogoutLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -83,14 +92,15 @@ const Home = () => {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-linear-to-br from-gray-50 to-blue-50">
       <div className="flex w-full max-w-6xl mx-auto h-[90vh] rounded-xl shadow-2xl bg-white border border-gray-200 overflow-hidden">
-        <div className="w-80 md:w-96 lg:w-100 border-r border-gray-200 overflow-hidden shrink-0 relative">
-          <Sidebar
+        <div className={`w-full md:w-96 lg:w-100 flex-1 lg:flex-none border-r border-gray-200 overflow-hidden relative ${!isSidebarVisible && selectedUserId ? 'hidden sm:hidden' : ''}`}>
+              <Sidebar
             selectedUserId={selectedUserId}
             setSelectedUserId={setSelectedUserId}
+            setIsSidebarVisible={setIsSidebarVisible}
           />
         </div>
-        <div className="flex-1 min-h-0 flex flex-col">
-          <Message />
+        <div className={`flex-auto flex flex-col min-h-0 bg-white ${selectedUserId ? 'flex md:flex' : 'hidden md:flex'}`}>
+          <Message onBackUser={handleShowSidebar} />
         </div>
         <button
           onClick={handleLogOut}

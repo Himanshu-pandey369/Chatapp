@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import userConversation from "../Zustans/userConversation";
 
-const Sidebar = ({ SelectedUserId, setSelectedUserId }) => {
+const Sidebar = ({ selectedUserId, setSelectedUserId, setIsSidebarVisible }) => {
   const [currentuser, setCurrentuser] = useState(null);
   const [searchInput, setsearchInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,9 +19,13 @@ const Sidebar = ({ SelectedUserId, setSelectedUserId }) => {
   } = userConversation();
   const navigate = useNavigate();
 
-  const handleUserClick = (user) => {
+const handleUserClick = (user) => {
     setSelectedUserId(user.username);
     setSelectedConversation(user);
+    // Hide sidebar on mobile only (<640px/sm breakpoint)
+    if (typeof window !== 'undefined' && window.innerWidth < 640 && setIsSidebarVisible) {
+      setIsSidebarVisible(false);
+    }
   };
 
   useEffect(() => {
