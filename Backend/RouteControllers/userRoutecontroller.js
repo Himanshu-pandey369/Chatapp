@@ -25,16 +25,8 @@ const userRegister = async (req, res) => {
       password: hashPassword,
       profilepic: avatarUrl,
     });
-
-    if (newUser) {
-      await newUser.save();
-      jwt(newUser._id, res);
-    } else {
-      return res.status(409).send({
-        success: false,
-        message: "an error occoured",
-      });
-    }
+    await newUser.save();
+    let token = jwt(newUser._id, res);
 
     res.status(201).send({
       success: true,
