@@ -22,7 +22,6 @@ const Sidebar = ({ selectedUserId, setSelectedUserId, setIsSidebarVisible }) => 
 const handleUserClick = (user) => {
     setSelectedUserId(user.username);
     setSelectedConversation(user);
-    // Hide sidebar on mobile only (<640px/sm breakpoint)
     if (typeof window !== 'undefined' && window.innerWidth < 640 && setIsSidebarVisible) {
       setIsSidebarVisible(false);
     }
@@ -148,7 +147,7 @@ const handleUserClick = (user) => {
           {chatUser.length === 0 ? (
             <div className="font-bold flex flex-col items-center text-xl text-gradient-to-r from-amber-500 to-orange-500 text-center mt-20 gap-2">
               <h1 className="text-2xl">Why are you Alone!! 🤔</h1>
-              <h1 className="text-lg">Bandi Nhi h Kya</h1>
+              <h1 className="text-lg">Start a conversation</h1>
             </div>
           ) : (
             chatUser.map((user) => (
