@@ -147,7 +147,7 @@ const handleUserClick = (user) => {
           {chatUser.length === 0 ? (
             <div className="font-bold flex flex-col items-center text-xl text-gradient-to-r from-amber-500 to-orange-500 text-center mt-20 gap-2">
               <h1 className="text-2xl">Why are you Alone!! 🤔</h1>
-              <h1 className="text-lg">Start a conversation</h1>
+              <h1 className="text-lg">Search people's to start a conversation</h1>
             </div>
           ) : (
             chatUser.map((user) => (
